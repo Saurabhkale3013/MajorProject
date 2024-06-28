@@ -3,14 +3,29 @@ const Review = require("../models/review");
 
 
 
+// module.exports.createReview = async(req,res)=>{
+//     let listing = await Listing.findById(req.params.id);
+//     let newReview = new Review(req.body.review);
+//     newReview.author = req.user._id;
+//     listing.reviews.push(newReview);
+
+//     await newReview.save();
+//     await listing.save();
+//     req.flash("success","New Review Created");
+//     res.redirect(`/listings/${listing._id}`);
+// };
+
 module.exports.createReview = async(req,res)=>{
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
+    console.log("Inside add review"); 
+    console.log(req.params.id);
+    let Listing = await listing.findById(req.params.id);
+    console.log("listing",Listing);
+    let newReview = await new Review(req.body.review);
     newReview.author = req.user._id;
-    listing.reviews.push(newReview);
+    Listing.reviews.push(newReview);
 
     await newReview.save();
-    await listing.save();
+    await Listing.save();
     req.flash("success","New Review Created");
     res.redirect(`/listings/${listing._id}`);
 };
